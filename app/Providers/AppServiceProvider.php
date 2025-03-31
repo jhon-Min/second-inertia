@@ -28,13 +28,9 @@ class AppServiceProvider extends ServiceProvider
             return;
         }
 
-        // Check if table exists and is empty
-        try {
-            if (Currency::count() === 0) {
-                UpdateCurrencyRates::dispatch();
-            }
-        } catch (\Exception $e) {
-            Log::error('Currency checked failed: ' . $e->getMessage());
+
+        if (!Currency::exists()) {
+            UpdateCurrencyRates::dispatch();
         }
     }
 }
