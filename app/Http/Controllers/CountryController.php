@@ -18,7 +18,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $countries = $this->countryService->getAll()->paginate(10);
+        $countries = $this->countryService->getAll()->orderBy('id', 'desc')->paginate(10);
         return inertia('Country/Index', compact('countries'));
     }
 

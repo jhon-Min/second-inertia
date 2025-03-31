@@ -49,6 +49,28 @@ const showingNavigationDropdown = ref(false);
                                     Currency
                                 </NavLink>
                             </div>
+
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('cities.index')"
+                                    :active="route().current('cities.*')"
+                                >
+                                    City
+                                </NavLink>
+                            </div>
+
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('countries.index')"
+                                    :active="route().current('countries.*')"
+                                >
+                                    Country
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">

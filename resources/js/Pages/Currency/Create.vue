@@ -70,7 +70,7 @@ const form = useForm({
 async function submit() {
     await form.post("/currencies", {
         preserveScroll: true,
-        onSuccess: () => form.reset("password"),
+        onSuccess: () => form.reset(""),
     });
 }
 </script>

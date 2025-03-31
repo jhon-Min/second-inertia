@@ -18,7 +18,7 @@ class CityController extends Controller
      */
     public function index()
     {
-        $cities = $this->cityService->getAll()->paginate(10);
+        $cities = $this->cityService->getAll()->with('country:id,common')->orderBy('id', 'desc')->paginate(10);
         return inertia('City/Index', compact('cities'));
     }
 
