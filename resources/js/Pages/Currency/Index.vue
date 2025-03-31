@@ -8,14 +8,26 @@
         </template>
 
         <div class="px-[40px] mt-8">
-            <!-- Button to open the create currency form -->
-            <div class="mb-4">
-                <Link
-                    :href="route('currencies.create')"
-                    class="px-4 py-2 text-white bg-blue-500 rounded-md"
-                >
-                    Add Currency
-                </Link>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center mb-4">
+                    <input
+                        type="text"
+                        v-model="searchQuery"
+                        @input="debouncedSearch"
+                        placeholder="Search currencies..."
+                        class="px-4 py-2 border border-gray-300 rounded-md"
+                    />
+                </div>
+
+                <!-- Button to open the create currency form -->
+                <div class="mb-4">
+                    <Link
+                        :href="route('currencies.create')"
+                        class="px-4 py-2 text-white bg-blue-500 rounded-md"
+                    >
+                        Add Currency
+                    </Link>
+                </div>
             </div>
 
             <div class="overflow-x-auto bg-white rounded-lg shadow-md">
@@ -113,11 +125,24 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, router, Link } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, computed, watch } from "vue";
+import { debounce } from "lodash";
 
 const props = defineProps({
     currencies: Object,
 });
+
+const searchQuery = ref("");
+
+const search = () => {
+    router.get(
+        "/currencies",
+        { search: searchQuery.value },
+        { preserveState: true }
+    );
+};
+
+const debouncedSearch = debounce(search, 500);
 
 // Format currency rate
 const formatRate = (rate) => {
@@ -128,10 +153,13 @@ const formatRate = (rate) => {
 };
 
 const handlePagination = (url) => {
-    router.visit(url, {
-        preserveState: true,
-        preserveScroll: true,
-    });
+    router.visit(
+        url + (searchQuery.value ? `&search=${searchQuery.value}` : ""),
+        {
+            preserveState: true,
+            preserveScroll: true,
+        }
+    );
 };
 
 const deleteCurrency = (id) => {

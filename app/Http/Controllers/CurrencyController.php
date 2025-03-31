@@ -25,7 +25,7 @@ class CurrencyController extends Controller
             })
             ->paginate(10);
 
-        return Inertia::render('Currency/Index', ['currencies' => $lists, 'filters' => $request->only(['search'])]);
+        return Inertia::render('Currency/Index', ['currencies' => $lists]);
     }
 
     public function store(StoreCurrencyRequest $request)
