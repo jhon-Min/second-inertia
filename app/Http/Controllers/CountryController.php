@@ -22,6 +22,8 @@ class CountryController extends Controller
         return inertia('Country/Index', compact('countries'));
     }
 
+
+
     /**
      * Show the form for creating a new resource.
      */

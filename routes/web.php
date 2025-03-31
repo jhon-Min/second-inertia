@@ -31,7 +31,9 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('/currencies', CurrencyController::class)->except('show');
-    Route::resource('/countries', CountryController::class);
+
+    Route::resource('/countries', CountryController::class)->except('show');
+
     Route::resource('/cities', CityController::class)->except('show');
 });
 

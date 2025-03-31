@@ -11,7 +11,7 @@
         <div class="px-[40px] mt-8">
             <div class="mb-4">
                 <Link
-                    :href="route('currencies.create')"
+                    :href="route('cities.create')"
                     class="px-4 py-2 text-white bg-blue-500 rounded-md"
                 >
                     Add City

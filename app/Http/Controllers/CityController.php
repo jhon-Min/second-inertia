@@ -6,11 +6,12 @@ use App\Http\Requests\StoreCityRequest;
 use App\Http\Requests\UpdateCityRequest;
 use App\Models\City;
 use App\Services\CityService;
+use App\Services\CountryService;
 use Illuminate\Http\Request;
 
 class CityController extends Controller
 {
-    public function __construct(protected CityService $cityService)
+    public function __construct(protected CityService $cityService, protected CountryService $countryService)
     {
     }
     /**
@@ -27,7 +28,8 @@ class CityController extends Controller
      */
     public function create()
     {
-        return inertia('City/Create');
+        $countries = $this->countryService->getAll()->select('id', 'common')->orderBy('id', 'desc')->get();
+        return inertia('City/Create', compact('countries'));
     }
 
     /**
@@ -52,7 +54,8 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        return inertia('City/Edit', compact('city'));
+        $countries = $this->countryService->getAll()->select('id', 'common')->orderBy('id', 'desc')->get();
+        return inertia('City/Edit', compact('city', 'countries'));
     }
 
     /**
