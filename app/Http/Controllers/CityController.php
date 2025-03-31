@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCityRequest;
+use App\Http\Requests\UpdateCityRequest;
 use App\Models\City;
 use App\Services\CityService;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class CityController extends Controller
     public function index()
     {
         $cities = $this->cityService->getAll()->paginate(10);
-        return $cities;
+        return inertia('City/Index', compact('cities'));
     }
 
     /**
@@ -25,15 +27,16 @@ class CityController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('City/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
-        //
+        $this->cityService->create($request->validated());
+        return redirect()->route('cities.index')->with('success', 'City created successfully.');
     }
 
     /**
@@ -49,15 +52,16 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        //
+        return inertia('City/Edit', compact('city'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, City $city)
+    public function update(UpdateCityRequest $request, City $city)
     {
-        //
+        $this->cityService->update($city, $request->validated());
+        return redirect()->route('cities.index')->with('success', 'City updated successfully.');
     }
 
     /**
@@ -65,6 +69,7 @@ class CityController extends Controller
      */
     public function destroy(City $city)
     {
-        //
+        $this->cityService->delete($city);
+        return redirect()->route('cities.index')->with('delete', 'City deleted successfully.');
     }
 }

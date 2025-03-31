@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Country;
 use App\Models\Currency;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 
 class UpdateCurrencyRates implements ShouldQueue
 {
@@ -29,9 +29,8 @@ class UpdateCurrencyRates implements ShouldQueue
     {
         try {
 
-            $baseUrl = config('services.currency_api.base_url');
-            $res = Http::get($baseUrl);
-            // dd('hello');
+            $currencyUrl = config('services.currency_api.base_url');
+            $res = Http::get($currencyUrl);
             $currencies = $res->json()['eur'];
             foreach ($currencies as $code => $rate) {
                 Currency::updateOrCreate(
@@ -39,9 +38,7 @@ class UpdateCurrencyRates implements ShouldQueue
                     ['rate' => $rate, 'updated_at' => now()]
                 );
             }
-            Log::info('Currency data successfully fetched and stored');
         } catch (\Exception $e) {
-            Log::error('Currency fetch failed: ' . $e->getMessage());
             $this->fail($e);
         }
     }

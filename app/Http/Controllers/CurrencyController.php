@@ -9,6 +9,7 @@ use App\Services\CurrencyService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+
 class CurrencyController extends Controller
 {
     public function __construct(protected CurrencyService $currencyService)
@@ -17,6 +18,7 @@ class CurrencyController extends Controller
 
     public function index(Request $request)
     {
+
         $lists = $this->currencyService->getAll()->orderBy('id', 'desc')
             ->when($request->search, function ($query, $search) {
                 return $query->where('code', 'ILIKE', "%{$search}%");

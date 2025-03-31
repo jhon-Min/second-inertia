@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Jobs\CreateCityAndCountry;
 use App\Jobs\UpdateCurrencyRates;
+use App\Models\Country;
 use App\Models\Currency;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Vite;
@@ -30,7 +32,12 @@ class AppServiceProvider extends ServiceProvider
 
 
         if (!Currency::exists()) {
-            UpdateCurrencyRates::dispatch();
+            UpdateCurrencyRates::dispatch()->onQueue('currency');
+            Log::info('Currency data successfully fetched and stored');
+        }
+        if (!Country::exists()) {
+            CreateCityAndCountry::dispatch()->onQueue('country');
+            Log::info(' Coutry, city data fetched and stored');
         }
     }
 }

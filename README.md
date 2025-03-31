@@ -10,7 +10,14 @@
 ## Must Run That Command
 
 -   composer install
--   DB_CONNECTION=pgsql
+-   cp .env.example .env
 -   php artisan migrate
 -   php artisan db:seed
--   php artisan queue:work
+
+# Terminal 1 - Worker for country-related jobs
+
+php artisan queue:work --queue=country --timeout=300
+
+# Terminal 2 - Worker for currency-related jobs
+
+php artisan queue:work --queue=currency --timeout=300

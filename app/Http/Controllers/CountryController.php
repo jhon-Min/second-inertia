@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCountryRequest;
+use App\Http\Requests\UpdateCountryRequest;
 use App\Models\Country;
 use App\Services\CountryService;
 use Illuminate\Http\Request;
@@ -17,7 +19,7 @@ class CountryController extends Controller
     public function index()
     {
         $countries = $this->countryService->getAll()->paginate(10);
-        return $countries;
+        return inertia('Country/Index', compact('countries'));
     }
 
     /**
@@ -25,15 +27,16 @@ class CountryController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Country/Create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCountryRequest $request)
     {
-        //
+        $this->countryService->create($request->validated());
+        return redirect()->route('countries.index')->with('success', 'Country created successfully.');
     }
 
     /**
@@ -49,15 +52,16 @@ class CountryController extends Controller
      */
     public function edit(Country $country)
     {
-        //
+        return inertia('Country/Edit', compact('country'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Country $country)
+    public function update(UpdateCountryRequest $request, Country $country)
     {
-        //
+        $this->countryService->update($country, $request->validated());
+        return redirect()->route('countries.index')->with('success', 'Country updated successfully.');
     }
 
     /**
@@ -65,6 +69,7 @@ class CountryController extends Controller
      */
     public function destroy(Country $country)
     {
-        //
+        $this->countryService->delete($country);
+        return redirect()->route('countries.index')->with('delete', 'Country deleted successfully.');
     }
 }

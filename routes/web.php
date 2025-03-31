@@ -5,7 +5,12 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CurrencyController;
+use App\Jobs\CreateCityAndCountry;
+use App\Jobs\UpdateCurrencyRates;
+use App\Models\Country;
+use App\Models\Currency;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -25,9 +30,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::resource('/currencies', CurrencyController::class);
+    Route::resource('/currencies', CurrencyController::class)->except('show');
     Route::resource('/countries', CountryController::class);
-    Route::resource('/cities', CityController::class);
+    Route::resource('/cities', CityController::class)->except('show');
 });
 
 require __DIR__ . '/auth.php';

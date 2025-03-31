@@ -38,5 +38,8 @@ return [
     'currency_api' => [
         'base_url' => env('CURRENCY_API_URL', 'https://latest.currency-api.pages.dev/v1/currencies/eur.json'),
     ],
+    'city_country_api' => [
+        'base_url' => env('CITY_COUNTRY_API_URL', 'https://restcountries.com/v3.1/all')
+    ]
 
 ];

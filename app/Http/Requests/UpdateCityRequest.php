@@ -22,7 +22,8 @@ class UpdateCityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'capital' => 'required|string',
+            'country_id' => 'required'
         ];
     }
 }
