@@ -17,9 +17,11 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cities = $this->cityService->getAll()->with('country:id,common')->orderBy('id', 'desc')->paginate(10);
+        $cities = $this->cityService->getAll()->with('country:id,common')->orderBy('id', 'desc')->when($request->search, function ($query, $search) {
+            return $query->where('capital', 'ILIKE', "%{$search}%");
+        })->paginate(10);
         return inertia('City/Index', compact('cities'));
     }
 

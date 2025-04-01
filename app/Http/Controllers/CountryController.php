@@ -16,9 +16,11 @@ class CountryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $countries = $this->countryService->getAll()->orderBy('id', 'desc')->paginate(10);
+        $countries = $this->countryService->getAll()->orderBy('id', 'desc')->when($request->search, function ($query, $search) {
+            return $query->where('common', 'ILIKE', "%{$search}%");
+        })->paginate(10);
         return inertia('Country/Index', compact('countries'));
     }
 

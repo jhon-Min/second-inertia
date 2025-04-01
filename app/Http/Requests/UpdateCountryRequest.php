@@ -21,8 +21,9 @@ class UpdateCountryRequest extends FormRequest
      */
     public function rules(): array
     {
+        $current_id = (request()->route('country')->id);
         return [
-            'common' => 'required|string',
+            'common' => "required|string|unique:countries,common,$current_id",
             'region' => 'required|string',
             'offical' => 'required|string'
         ];

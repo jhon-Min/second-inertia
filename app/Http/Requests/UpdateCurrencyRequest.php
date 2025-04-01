@@ -21,9 +21,12 @@ class UpdateCurrencyRequest extends FormRequest
      */
     public function rules(): array
     {
+
+        $current_id = (request()->route('currency')->id);
+
         return [
-            'code' => 'required|string',
-            'rate' => 'required|numeric'
+            'code' => "required|string|unique:currencies,code,$current_id",
+            'rate' => "required|numeric"
         ];
     }
 
