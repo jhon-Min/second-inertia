@@ -14,6 +14,11 @@
 -   php artisan migrate
 -   php artisan db:seed
 
+# Login credentials
+
+-   min@gmail.com
+-   password
+
 # Terminal 1 - Worker for country-related jobs
 
 php artisan queue:work --queue=country --timeout=300
