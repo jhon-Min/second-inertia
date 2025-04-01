@@ -10,6 +10,7 @@
 ## Must Run That Command
 
 -   composer install
+-   npm install
 -   cp .env.example .env
 -   php artisan migrate
 -   php artisan db:seed
